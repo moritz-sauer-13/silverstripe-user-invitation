@@ -56,6 +56,9 @@ public function updateMainTemplates(&$mainTemplates)
 
  *  [Dynamic](https://www.dynamicagency.com) (<dev@dynamicagency.com>)
 
+## Credits
+Forked from [FSWebWorks/silverstripe-user-invitation](https://github.com/FSWebWorks/silverstripe-user-invitation) to upgrade for Silverstripe 4 & 5.
+
 ## Bugtracker
 Bugs are tracked in the issues section of this repository. Before submitting an issue please read over
 existing issues to ensure yours is unique.
