@@ -1,5 +1,5 @@
 {
-    "name": "fswebworks/silverstripe-user-invitation",
+    "name": "dynamic/silverstripe-user-invitation",
     "description": "A SilverStripe module to handle user invitations to your secure website.",
     "license": "BSD-3-Clause",
     "type": "silverstripe-vendormodule",
@@ -11,24 +11,38 @@
         {
             "name": "Franco Springveldt",
             "email": "franco@fswebworks.co.za"
+        },
+        {
+            "name": "Dynamic",
+            "email": "dev@dynamicagency.com",
+            "homepage": "https://www.dynamicagency.com"
         }
     ],
     "require": {
-        "silverstripe/framework": "^4 || ^5"
+        "silverstripe/framework": "^4"
     },
     "require-dev": {
-        "silverstripe/recipe-testing": "^2 || ^3"
+        "silverstripe/recipe-testing": "^2"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "FSWebWorks\\SilverStripe\\UserInvitations\\": "src/",
-            "FSWebWorks\\SilverStripe\\UserInvitations\\Tests\\": "tests/php/"
+            "Dynamic\\UserInvitations\\": "src/",
+            "Dynamic\\UserInvitations\\Test\\": "tests/php/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true,
+            "silverstripe/recipe-plugin": true
+        },
+        "process-timeout": 600
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-main": "1.x-dev"
         }
     }
 }
