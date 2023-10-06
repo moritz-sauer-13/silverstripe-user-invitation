@@ -1,10 +1,10 @@
 <?php
 
-namespace FSWebWorks\SilverStripe\UserInvitations\Tests;
+namespace Dynamic\SilverStripe\UserInvitations\Tests;
 
 use SilverStripe\Dev\Debug;
 use SilverStripe\Dev\SapphireTest;
-use FSWebWorks\SilverStripe\UserInvitations\Model\UserInvitation;
+use Dynamic\SilverStripe\UserInvitations\Model\UserInvitation;
 
 class UserInvitationTest extends SapphireTest
 {

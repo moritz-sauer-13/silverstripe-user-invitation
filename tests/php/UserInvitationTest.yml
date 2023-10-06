@@ -3,7 +3,7 @@ SilverStripe\Security\Member:
     FirstName: Jane
     Surname: Doe
     Email: jane@doe.clone
-FSWebWorks\SilverStripe\UserInvitations\Model\UserInvitation:
+Dynamic\SilverStripe\UserInvitations\Model\UserInvitation:
   joe:
     FirstName: Joe
     Email: joe@soap.person

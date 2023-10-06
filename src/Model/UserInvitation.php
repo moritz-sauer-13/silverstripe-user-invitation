@@ -1,6 +1,6 @@
 <?php
 
-namespace FSWebWorks\SilverStripe\UserInvitations\Model;
+namespace Dynamic\SilverStripe\UserInvitations\Model;
 
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
@@ -13,7 +13,7 @@ use SilverStripe\Security\Security;
 
 /**
  * Class UserInvitation
- * @package FSWebWorks
+ * @package Dynamic
  * @subpackage UserInvitation
  *
  * @property string FirstName

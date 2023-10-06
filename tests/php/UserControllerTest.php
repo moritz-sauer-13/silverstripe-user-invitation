@@ -1,6 +1,6 @@
 <?php
 
-namespace FSWebWorks\SilverStripe\UserInvitations\Tests;
+namespace Dynamic\SilverStripe\UserInvitations\Tests;
 
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Forms\Form;
@@ -13,8 +13,8 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\FunctionalTest;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\FieldType\DBHTMLText;
-use FSWebWorks\SilverStripe\UserInvitations\Model\UserInvitation;
-use FSWebWorks\SilverStripe\UserInvitations\Control\UserController;
+use Dynamic\SilverStripe\UserInvitations\Model\UserInvitation;
+use Dynamic\SilverStripe\UserInvitations\Control\UserController;
 
 class UserControllerTest extends FunctionalTest
 {

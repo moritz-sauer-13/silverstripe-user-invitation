@@ -1,8 +1,8 @@
 <?php
 
-namespace FSWebWorks\SilverStripe\UserInvitations\Control;
+namespace Dynamic\SilverStripe\UserInvitations\Control;
 
-use FSWebWorks\SilverStripe\UserInvitations\Model\UserInvitation;
+use Dynamic\SilverStripe\UserInvitations\Model\UserInvitation;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPResponse;
