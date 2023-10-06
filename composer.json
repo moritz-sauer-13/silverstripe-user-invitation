@@ -1,0 +1,34 @@
+{
+    "name": "fswebworks/silverstripe-user-invitation",
+    "description": "A SilverStripe module to handle user invitations to your secure website.",
+    "license": "BSD-3-Clause",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "silverstripe",
+        "user invitation"
+    ],
+    "authors": [
+        {
+            "name": "Franco Springveldt",
+            "email": "franco@fswebworks.co.za"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "^4 || ^5"
+    },
+    "require-dev": {
+        "silverstripe/recipe-testing": "^2 || ^3"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "FSWebWorks\\SilverStripe\\UserInvitations\\": "src/",
+            "FSWebWorks\\SilverStripe\\UserInvitations\\Tests\\": "tests/php/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}
