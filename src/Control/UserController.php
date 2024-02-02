@@ -161,7 +161,9 @@ class UserController extends Controller implements PermissionProvider
 
         $invite = UserInvitation::create();
         $form->saveInto($invite);
-        $groups = implode(',', array_values($data['Groups']));
+        // We now store the values as json, same as the backend
+        $groups = json_encode(array_values($data['Groups']));
+
         $invite->Groups = $groups;
         try {
             $invite->write();
@@ -264,9 +266,11 @@ class UserController extends Controller implements PermissionProvider
             try {
                 if ($member->validate()) {
                     $member->write();
+
+                    $groups = json_decode($invite->Groups);
+
                     // Add user group info
-                    $groups = explode(',', $invite->Groups);
-                    foreach (Group::get()->filter(['Code' => $groups]) as $group) {
+                                        foreach (Group::get()->filter(['Code' => $groups]) as $group) {
                         $group->Members()->add($member);
                     }
                 }
@@ -293,13 +297,17 @@ class UserController extends Controller implements PermissionProvider
     {
         $security = Injector::inst()->get(Security::class);
 
+        $link = 'login';
+        $back_url = Config::inst()->get(UserController::class, 'back_url');
+        $link = ($back_url) ? $link . '?BackURL=' . $back_url: $link ;
+
         return $this->renderWithLayout(
             [
                 static::class . '_success',
                 static::class,
             ],
             [
-                'LoginLink' => $security->Link('login'),
+                'LoginLink' => $security->Link($link),
             ]
         );
     }

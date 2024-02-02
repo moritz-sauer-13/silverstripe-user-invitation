@@ -2,10 +2,16 @@
 
 namespace Dynamic\SilverStripe\UserInvitations\Model;
 
+use LeKoala\CmsActions\CustomAction;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Forms\RequiredFields;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\RandomGenerator;
@@ -57,7 +63,21 @@ class UserInvitation extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        $fields->removeByName('TempHash');
+        $fields->removeByName(['TempHash']);
+
+        $groups = Group::get()->map('Code', 'Title')->toArray();
+
+        $fields->addFieldsToTab('Root.Main', [
+            CheckboxSetField::create(
+                'Groups',
+                _t('UserController.INVITE_GROUP', 'Add to group'),
+                $groups
+            )
+        ]);
+
+        $fields->addFieldToTab('Root.Main', ReadonlyField::create('TempHash'));
+        $fields->replaceField('InvitedByID',
+            $fields->dataFieldByName('InvitedByID')->performReadonlyTransformation());
         return $fields;
     }
 
@@ -104,6 +124,14 @@ class UserInvitation extends DataObject
         return $email;
     }
 
+    public function getCMSValidator()
+    {
+        return new RequiredFields([
+            'FirstName',
+            'Email'
+        ]);
+    }
+
     /**
      * Checks if a user invite was already sent, or if a user is already a member
      * @return ValidationResult
@@ -111,7 +139,9 @@ class UserInvitation extends DataObject
     public function validate()
     {
         $valid = parent::validate();
+        $exists = $this->isInDB();
 
+        if (!$exists) {
         if (self::get()->filter('Email', $this->Email)->first()) {
             // UserInvitation already sent
             $valid->addError(_t('UserInvitation.INVITE_ALREADY_SENT', 'This user was already sent an invite.'));
@@ -123,6 +153,7 @@ class UserInvitation extends DataObject
                 'UserInvitation.MEMBER_ALREADY_EXISTS',
                 'This person is already a member of this system.'
             ));
+        }
         }
         return $valid;
     }
@@ -136,7 +167,7 @@ class UserInvitation extends DataObject
         $result = false;
         $days = self::config()->get('days_to_expiry');
         $time = DBDatetime::now()->getTimestamp();
-        $ago = abs($time - strtotime($this->Created));
+        $ago = abs($time - strtotime($this->LastEdited));
         $rounded = round($ago / 86400);
         if ($rounded > $days) {
             $result = true;
@@ -147,5 +178,26 @@ class UserInvitation extends DataObject
     public function canCreate($member = null, $context = null)
     {
         return Permission::check('ACCESS_USER_INVITATIONS');
+    }
+    public function getCMSActions()
+    {
+        $actions = parent::getCMSActions();
+
+        if ($this->isInDB()) {
+            $actions->push(new CustomAction("doCustomActionSendInvitation", _t('UserInvitation.SendInvitation', 'Send invitation')));
+        } else {
+            $actions->push(LiteralField::create('doCustomActionSendInvitationUnavailable', "<span class=\"bb-align\">" . _t('UserInvitation.CreateSaveBeforeSending', 'Create/Save before sending invite!')."</span>"));
+        }
+
+        return $actions;
+    }
+
+    public function doCustomActionSendInvitation() {
+
+        if ($email = $this->sendInvitation()) {
+            return $email;
+        }
+
+        return 'Invite was NOT send';
     }
 }

@@ -19,7 +19,8 @@
         }
     ],
     "require": {
-        "silverstripe/framework": "^4 || ^5"
+        "silverstripe/framework": "^4 || ^5",
+        "lekoala/silverstripe-cms-actions": "^1.4"
     },
     "require-dev": {
         "silverstripe/recipe-testing": "^2 || ^3"
