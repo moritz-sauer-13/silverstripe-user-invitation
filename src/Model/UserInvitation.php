@@ -5,6 +5,7 @@ namespace Dynamic\SilverStripe\UserInvitations\Model;
 use LeKoala\CmsActions\CustomAction;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
+use SilverStripe\Dev\Debug;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
@@ -118,6 +119,8 @@ class UserInvitation extends DataObject
                     'SiteURL' => Director::absoluteBaseURL(),
                 ]
             );
+
+        $this->extend('updateInvitationEmail', $email);
 
         $email->send();
 
