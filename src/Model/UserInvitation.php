@@ -7,6 +7,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Dev\Debug;
 use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
@@ -75,6 +76,8 @@ class UserInvitation extends DataObject
                 $groups
             )
         ]);
+
+        $fields->replaceField('Email', EmailField::create('Email'));
 
         $fields->addFieldToTab('Root.Main', ReadonlyField::create('TempHash'));
         $fields->replaceField('InvitedByID',
