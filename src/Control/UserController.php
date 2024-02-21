@@ -243,7 +243,7 @@ class UserController extends Controller implements PermissionProvider
             $actions,
             $requiredFields
         );
-        $this->extend('updateAcceptForm', $form);
+        $this->extend('updateAcceptForm', $form, $invite);
         return $form;
     }
 
@@ -263,6 +263,9 @@ class UserController extends Controller implements PermissionProvider
         if ($form->validationResult()->isValid()) {
             $member = Member::create(['Email' => $invite->Email]);
             $form->saveInto($member);
+
+            $this->extend('updateMemberCreate', $member, $invite);
+
             try {
                 if ($member->validate()) {
                     $member->write();
