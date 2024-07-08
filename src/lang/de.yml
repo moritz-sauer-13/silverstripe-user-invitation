@@ -1,16 +1,38 @@
-de:
   UserInvitationEmail:
     HEADING: 'Hi {name}'
     BODY: "Sie wurden von {inviterName} eingeladen, {site} beizutreten"
     ACCEPT: "Klicken Sie hier, um diese Einladung anzunehmen."
   UserInvation:
     EMAIL_SUBJECT: "Einladung von {name}"
+    INVITEFORM_HEADING: "Benutzereinladung"
+    INVITEFORM_BODY: "Geben Sie unten die Daten der Person ein, die Sie einladen möchten."
+    ACCEPTED_SIGN_UP: "Registrieren"
+    ACCEPTED_BODY: "Füllen Sie das folgende Formular aus, um Ihre Anmeldung für {name} zu bestätigen"
+    EXPIRED_HEADING: "Einladung ist abgelaufen"
+    EXPIRED_BODY: "Ups, Sie haben zu lange gebraucht, um diese Einladung anzunehmen."
+    NOTFOUND_HEADING: "Einladung nicht gefunden"
+    NOTFOUND_BODY: "Ups, die Einladungs-ID wurde nicht gefunden."
+    ACCEPTED_HEADING: "Herzlichen Glückwunsch!"
+    ACCEPTED_LOGIN_LINK_TEXT: "Klicken Sie hier, um sich einzuloggen."
+    ACCEPTED_BODY_SUCCESS: "Sie sind jetzt ein registriertes Mitglied."
   UserInvitation:
     EMAIL_SUBJECT: "Einladung von {name}"
+    INVITEFORM_HEADING: "Benutzereinladung"
+    INVITEFORM_BODY: "Geben Sie unten die Daten der Person ein, die Sie einladen möchten."
+    ACCEPTED_SIGN_UP: "Registrieren"
+    ACCEPTED_BODY: "Füllen Sie das folgende Formular aus, um Ihre Anmeldung für {name} zu bestätigen"
+    EXPIRED_HEADING: "Einladung ist abgelaufen"
+    EXPIRED_BODY: "Ups, Sie haben zu lange gebraucht, um diese Einladung anzunehmen."
+    NOTFOUND_HEADING: "Einladung nicht gefunden"
+    NOTFOUND_BODY: "Ups, die Einladungs-ID wurde nicht gefunden."
+    ACCEPTED_HEADING: "Herzlichen Glückwunsch!"
+    ACCEPTED_LOGIN_LINK_TEXT: "Klicken Sie hier, um sich einzuloggen."
+    ACCEPTED_BODY_SUCCESS: "Sie sind jetzt ein registriertes Mitglied."
     INVITE_ALREADY_SENT: "Diesem Benutzer wurde bereits eine Einladung geschickt."
     MEMBER_ALREADY_EXISTS: "Es existiert bereits ein Mitglied mit dieser E-Mail-Adresse."
     SendInvitation: "Einladung senden"
     CreateSaveBeforeSending: "Vor dem Versenden der Einladung erstellen/speichern!"
+    InvitedBy: "Eingeladen von"
   UserController:
     INVITE_GROUP: "Zu Gruppe hinzufügen"
     ACCESS_PERMISSIONS: "Benutzereinladungen zulassen"
@@ -26,3 +48,7 @@ de:
     ACCEPTFORM_SURNAME: "Nachname:"
     ACCEPTFORM_REGISTER: "Registrieren"
     403_NOTICE: "Sie müssen eingeloggt sein, um auf diese Seite zugreifen zu können."
+    ACCEPTED_BODY: "Sie sind jetzt ein registriertes Mitglied."
+  Dynamic\SilverStripe\UserInvitations\Model\UserInvitation:
+    SINGULARNAME: "Benutzereinladung"
+    PLURALNAME: "Benutzereinladungen"
