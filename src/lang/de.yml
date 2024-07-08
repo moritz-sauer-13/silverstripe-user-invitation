@@ -1,1 +1,28 @@
-
+de:
+  UserInvitationEmail:
+    HEADING: 'Hi {name}'
+    BODY: "Sie wurden von {inviterName} eingeladen, {site} beizutreten"
+    ACCEPT: "Klicken Sie hier, um diese Einladung anzunehmen."
+  UserInvation:
+    EMAIL_SUBJECT: "Einladung von {name}"
+  UserInvitation:
+    EMAIL_SUBJECT: "Einladung von {name}"
+    INVITE_ALREADY_SENT: "Diesem Benutzer wurde bereits eine Einladung geschickt."
+    MEMBER_ALREADY_EXISTS: "Es existiert bereits ein Mitglied mit dieser E-Mail-Adresse."
+    SendInvitation: "Einladung senden"
+    CreateSaveBeforeSending: "Vor dem Versenden der Einladung erstellen/speichern!"
+  UserController:
+    INVITE_GROUP: "Zu Gruppe hinzufügen"
+    ACCESS_PERMISSIONS: "Benutzereinladungen zulassen"
+    CMS_ACCESS_CATEGORY: "Benutzer-Einladungen"
+    INVITE_FIRSTNAME: "Vorname:"
+    INVITE_EMAIL: "E-Mail einladen:"
+    INVITE_GROUP_RIGHTTITLE: "Strg + Klick zur Mehrfachauswahl"
+    SEND_INVITATION: "Einladung senden"
+    PERMISSION_FAILURE: "Sie haben nicht die Berechtigung, Benutzereinladungen zu erstellen"
+    SENT_INVITATION_VALIDATION_FAILED: "Beim Versuch, Ihre Einladung zu speichern, ist mindestens ein Fehler aufgetreten: {error}"
+    SENT_INVITATION: "Eine Einladung wurde an {email} gesendet."
+    ACCEPTFORM_FIRSTNAME: "Vorname:"
+    ACCEPTFORM_SURNAME: "Nachname:"
+    ACCEPTFORM_REGISTER: "Registrieren"
+    403_NOTICE: "Sie müssen eingeloggt sein, um auf diese Seite zugreifen zu können."
