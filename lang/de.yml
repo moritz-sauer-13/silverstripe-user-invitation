@@ -1,3 +1,4 @@
+de:
   UserInvitationEmail:
     HEADING: 'Hi {name}'
     BODY: "Sie wurden von {inviterName} eingeladen, {site} beizutreten"
