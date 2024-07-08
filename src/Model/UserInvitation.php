@@ -58,6 +58,16 @@ class UserInvitation extends DataObject
         'TempHash' => true
     ];
 
+    public function summaryFields()
+    {
+        return [
+            'FirstName' => _t('UserInvitation.FirstName', 'First Name'),
+            'Email' => _t('UserInvitation.Email', 'Email'),
+            'InvitedBy.FirstName' => _t('UserInvitation.InvitedBy', 'Invited By'),
+            'Created' => _t('UserInvitation.Created', 'Created')
+        ];
+    }
+
     /**
      * Removes the hash field from the list.
      * @return FieldList
