@@ -5,12 +5,12 @@ namespace Dynamic\SilverStripe\UserInvitations\Model;
 use LeKoala\CmsActions\CustomAction;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
-use SilverStripe\Dev\Debug;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\Group;
@@ -68,8 +68,10 @@ class UserInvitation extends DataObject
         $fields->removeByName(['TempHash']);
 
         $groups = Group::get()->map('Code', 'Title')->toArray();
-
         $fields->addFieldsToTab('Root.Main', [
+            TextField::create('FirstName', _t('SilverStripe\Security\Member.FIRSTNAME')),
+            EmailField::create('Email', _t('SilverStripe\Security\Member.EMAIL')),
+
             CheckboxSetField::create(
                 'Groups',
                 _t('UserController.INVITE_GROUP', 'Add to group'),
@@ -81,7 +83,9 @@ class UserInvitation extends DataObject
 
         $fields->addFieldToTab('Root.Main', ReadonlyField::create('TempHash'));
         $fields->replaceField('InvitedByID',
-            $fields->dataFieldByName('InvitedByID')->performReadonlyTransformation());
+            $fields->dataFieldByName('InvitedByID')
+                ->performReadonlyTransformation()
+                ->setTitle(_t('UserInvitation.InvitedBy', 'Invited by')));
         return $fields;
     }
 
@@ -111,7 +115,7 @@ class UserInvitation extends DataObject
             ->setTo($this->Email)
             ->setSubject(
                 _t(
-                    'UserInvitation.EMAIL_SUBJECT',
+                    'UserInvation.EMAIL_SUBJECT',
                     'Invitation from {name}',
                     ['name' => $this->InvitedBy()->FirstName]
                 )
@@ -148,18 +152,18 @@ class UserInvitation extends DataObject
         $exists = $this->isInDB();
 
         if (!$exists) {
-        if (self::get()->filter('Email', $this->Email)->first()) {
-            // UserInvitation already sent
-            $valid->addError(_t('UserInvitation.INVITE_ALREADY_SENT', 'This user was already sent an invite.'));
-        }
+            if (self::get()->filter('Email', $this->Email)->first()) {
+                // UserInvitation already sent
+                $valid->addError(_t('UserInvitation.INVITE_ALREADY_SENT', 'This user was already sent an invite.'));
+            }
 
-        if (Member::get()->filter('Email', $this->Email)->first()) {
-            // Member already exists
-            $valid->addError(_t(
-                'UserInvitation.MEMBER_ALREADY_EXISTS',
-                'This person is already a member of this system.'
-            ));
-        }
+            if (Member::get()->filter('Email', $this->Email)->first()) {
+                // Member already exists
+                $valid->addError(_t(
+                    'UserInvitation.MEMBER_ALREADY_EXISTS',
+                    'This person is already a member of this system.'
+                ));
+            }
         }
         return $valid;
     }
