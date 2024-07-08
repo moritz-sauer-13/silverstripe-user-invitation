@@ -111,7 +111,7 @@ class UserInvitation extends DataObject
             ->setTo($this->Email)
             ->setSubject(
                 _t(
-                    'UserInvation.EMAIL_SUBJECT',
+                    'UserInvitation.EMAIL_SUBJECT',
                     'Invitation from {name}',
                     ['name' => $this->InvitedBy()->FirstName]
                 )
