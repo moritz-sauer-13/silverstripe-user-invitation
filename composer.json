@@ -1,5 +1,5 @@
 {
-    "name": "dynamic/silverstripe-user-invitation",
+    "name": "moritz-sauer-13/silverstripe-user-invitation",
     "description": "A SilverStripe module to handle user invitations to your secure website.",
     "license": "BSD-3-Clause",
     "type": "silverstripe-vendormodule",
@@ -16,14 +16,22 @@
             "name": "Dynamic",
             "email": "dev@dynamicagency.com",
             "homepage": "https://www.dynamicagency.com"
+        },
+        {
+            "name": "Moritz Sauer",
+            "email": "ms@tietge.com",
+            "homepage": "https://www.tietge.com"
         }
     ],
     "require": {
-        "silverstripe/framework": "^4 || ^5",
-        "lekoala/silverstripe-cms-actions": "^1.4"
+        "silverstripe/framework": "^6",
+        "lekoala/silverstripe-cms-actions": "^2"
     },
     "require-dev": {
-        "silverstripe/recipe-testing": "^2 || ^3"
+        "silverstripe/recipe-testing": "^4",
+        "rector/rector": "^2.2",
+        "phpstan/phpstan": "^2.1",
+        "wernerkrauss/silverstripe-rector": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -44,6 +52,10 @@
     "extra": {
         "branch-alias": {
             "dev-main": "1.x-dev"
-        }
+        },
+        "project-files-installed": [
+            "behat.yml",
+            "phpunit.xml.dist"
+        ]
     }
 }

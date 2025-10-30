@@ -2,6 +2,8 @@
 
 namespace Dynamic\SilverStripe\UserInvitations\Model;
 
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
+use SilverStripe\Core\Validation\ValidationResult;
 use LeKoala\CmsActions\CustomAction;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
@@ -9,7 +11,6 @@ use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
@@ -34,26 +35,25 @@ use SilverStripe\Security\Security;
  */
 class UserInvitation extends DataObject
 {
-    private static $table_name = "UserInvitation";
+    private static string $table_name = "UserInvitation";
 
     /**
      * Used to control whether a group selection on the invitation form is required.
-     * @var bool
      */
-    private static $force_require_group = false;
+    private static bool $force_require_group = false;
 
-    private static $db = [
+    private static array $db = [
         'FirstName' => 'Varchar',
         'Email' => 'Varchar(254)',
         'TempHash' => 'Varchar',
         'Groups' => 'Text'
     ];
 
-    private static $has_one = [
+    private static array $has_one = [
         'InvitedBy' => Member::class
     ];
 
-    private static $indexes = [
+    private static array $indexes = [
         'Email' => true,
         'TempHash' => true
     ];
@@ -99,10 +99,10 @@ class UserInvitation extends DataObject
         return $fields;
     }
 
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         if (!$this->ID) {
-            $generator = new RandomGenerator();
+            $generator = RandomGenerator::create();
             $this->TempHash = $generator->randomToken('sha1');
 
             if (Security::getCurrentUser()) {
@@ -112,6 +112,7 @@ class UserInvitation extends DataObject
                 }
             }
         }
+        
         parent::onBeforeWrite();
     }
 
@@ -144,9 +145,9 @@ class UserInvitation extends DataObject
         return $email;
     }
 
-    public function getCMSValidator()
+    public function getCMSValidator(): RequiredFieldsValidator
     {
-        return new RequiredFields([
+        return RequiredFieldsValidator::create([
             'FirstName',
             'Email'
         ]);
@@ -154,9 +155,8 @@ class UserInvitation extends DataObject
 
     /**
      * Checks if a user invite was already sent, or if a user is already a member
-     * @return ValidationResult
      */
-    public function validate()
+    public function validate(): ValidationResult
     {
         $valid = parent::validate();
         $exists = $this->isInDB();
@@ -175,6 +175,7 @@ class UserInvitation extends DataObject
                 ));
             }
         }
+        
         return $valid;
     }
 
@@ -190,8 +191,9 @@ class UserInvitation extends DataObject
         $ago = abs($time - strtotime($this->LastEdited));
         $rounded = round($ago / 86400);
         if ($rounded > $days) {
-            $result = true;
+            return true;
         }
+        
         return $result;
     }
 
@@ -199,14 +201,15 @@ class UserInvitation extends DataObject
     {
         return Permission::check('ACCESS_USER_INVITATIONS');
     }
+    
     public function getCMSActions()
     {
         $actions = parent::getCMSActions();
 
         if ($this->isInDB()) {
-            $actions->push(new CustomAction("doCustomActionSendInvitation", _t('UserInvitation.SendInvitation', 'Send invitation')));
+            $actions->push(CustomAction::create("doCustomActionSendInvitation", _t('UserInvitation.SendInvitation', 'Send invitation')));
         } else {
-            $actions->push(LiteralField::create('doCustomActionSendInvitationUnavailable', "<span class=\"bb-align\">" . _t('UserInvitation.CreateSaveBeforeSending', 'Create/Save before sending invite!')."</span>"));
+            $actions->push(LiteralField::create('doCustomActionSendInvitationUnavailable', '<span class="bb-align">' . _t('UserInvitation.CreateSaveBeforeSending', 'Create/Save before sending invite!')."</span>"));
         }
 
         return $actions;
