@@ -50,9 +50,6 @@
         "process-timeout": 600
     },
     "extra": {
-        "branch-alias": {
-            "dev-main": "1.x-dev"
-        },
         "project-files-installed": [
             "behat.yml",
             "phpunit.xml.dist"
