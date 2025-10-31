@@ -146,7 +146,7 @@ class UserController extends Controller implements PermissionProvider
             );
             return $this->redirectBack();
         }
-        
+
         if (!$form->validate()->isValid()) {
             $form->sessionMessage(
                 _t(
@@ -174,7 +174,7 @@ class UserController extends Controller implements PermissionProvider
             );
             return $this->redirectBack();
         }
-        
+
         $invite->sendInvitation();
 
         $form->sessionMessage(
@@ -193,7 +193,7 @@ class UserController extends Controller implements PermissionProvider
         if (!$hash = $this->getRequest()->param('ID')) {
             return $this->forbiddenError();
         }
-        
+
         if ($invite = UserInvitation::get()->filter(
             'TempHash',
             $hash
@@ -204,7 +204,7 @@ class UserController extends Controller implements PermissionProvider
         } else {
             return $this->redirect($this->Link('notfound'));
         }
-        
+
         return $this->renderWithLayout([
             static::class . '_accept',
             static::class,
@@ -256,7 +256,7 @@ class UserController extends Controller implements PermissionProvider
         )->first()) {
             return $this->notFoundError();
         }
-        
+
         if ($form->validate()->isValid()) {
             $member = Member::create(['Email' => $invite->Email]);
             $form->saveInto($member);
@@ -281,7 +281,7 @@ class UserController extends Controller implements PermissionProvider
                 );
                 return $this->redirectBack();
             }
-            
+
             // Delete invitation
             $invite->delete();
             return $this->redirect($this->Link('success'));
@@ -360,7 +360,7 @@ class UserController extends Controller implements PermissionProvider
             if ($indexOf = stripos($url, '/')) {
                 $url = substr($url, 0, $indexOf);
             }
-            
+
             return $this->join_links($url, $action);
         }
 
@@ -373,24 +373,22 @@ class UserController extends Controller implements PermissionProvider
      */
     public function renderWithLayout($templates, array|ModelData $customFields = []): DBHTMLText
     {
-        $templates = $this->getLayoutTemplates($templates);
+        $layoutTemplates = $this->getLayoutTemplates($templates);
+
+        // Prepare main templates
         $mainTemplates = [Page::class];
         $this->extend('updateMainTemplates', $mainTemplates);
 
-        $viewer = SSViewer::create($this->getViewerTemplates());
-        $viewer->setTemplateFile(
-            'main',
-            ThemeResourceLoader::inst()->findTemplate($mainTemplates)
-        );
-        $viewer->setTemplateFile(
-            'Layout',
-            ThemeResourceLoader::inst()->findTemplate($templates)
-        );
+        // Render layout content first
+        $layoutViewer = SSViewer::create($layoutTemplates);
+        $data = $this->customise($customFields);
+        $layoutContent = $layoutViewer->process($data);
 
-        //print_r($viewer->templates());
-        return $viewer->process(
-            $this->customise($customFields)
-        );
+        // Render main template with layout content
+        $mainViewer = SSViewer::create($mainTemplates);
+        return $mainViewer->process($data->customise([
+            'Layout' => $layoutContent
+        ]));
     }
 
     /**
@@ -406,8 +404,8 @@ class UserController extends Controller implements PermissionProvider
         if (count($templates) === 0 || $templates[count($templates) - 1] !== 'Page') {
             $templates[] = 'Page';
         }
-        
-        // otherwise it renders funny
+
+        // Add Layout type prefix for template resolution
         $templates = ['type' => 'Layout'] + $templates;
         return $templates;
     }
